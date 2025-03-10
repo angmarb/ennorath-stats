@@ -1,4 +1,4 @@
-function sortTable(th, n) {
+function sortTable(th, n, isNum) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = th.parentNode.closest("table");
   switching = true;
@@ -22,13 +22,13 @@ function sortTable(th, n) {
       /* Check if the two rows should switch place,
       based on the direction, asc or desc: */
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (isNum ? (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) : (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) {
           // If so, mark as a switch and break the loop:
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (isNum ? (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) : (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase())) {
           // If so, mark as a switch and break the loop:
           shouldSwitch = true;
           break;
