@@ -1,6 +1,6 @@
-function sortTable(n) {
+function sortTable(th, n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = this.parentNode.closest("table");
+  table = th.parentNode.closest("table");
   switching = true;
   // Set the sorting direction to ascending:
   dir = "asc";
