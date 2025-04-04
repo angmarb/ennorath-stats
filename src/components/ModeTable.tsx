@@ -21,7 +21,19 @@ export default function ModeTable({mapNames, userNames, data, title}: Props) {
     }, [allFactions, userNames, mapNames]);
 
 
-    const total = useMemo(() => data.reduce((a, r) => a + r.wins, 0), [data]);
+    const total = useMemo(() => {
+        const t = data.reduce((a, r) => a + r.wins + r.loss, 0);
+        const versus = title.match(/(?<v>\d+) versus \d+/);
+        if (versus) {
+            return t / (2*versus.groups.v);
+        }
+        const ffa = title.match(/FFA\s?(?<v>\d+)/);
+        if (ffa) {
+            return t / +ffa.groups.v;
+        }
+        return t;
+
+    }, [data]);
     return (<>
         <h3>{title}, всего игр: {total}</h3>
         <div className={'mode'}>

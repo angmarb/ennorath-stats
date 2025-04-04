@@ -17,6 +17,12 @@ interface TableItem extends InfoItem {
 type Sort = {isAsc: boolean; column: keyof TableItem};
 const defaultSort: Sort = {isAsc: false, column: 'winRate'};
 
+function IfSort({sort, columnKey}: {sort: Sort; columnKey: keyof TableItem}) {
+    return (
+        <span className={`sort-arrow ${sort.column === columnKey ? '' : 'hidden'}`}>{sort.isAsc ? '↑' : '↓'}</span>
+    );
+}
+
 interface Props extends ForTableDataInfo {
     rawData: InfoItem[];
     mapNames: Record<string, string>;
@@ -36,6 +42,10 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
         : (a: TableItem, b: TableItem) => (a[sort.column] as string).localeCompare(b[sort.column] as string),
         [sort]
     );
+
+    const ifSort = useCallback((columnKey: keyof TableItem) => {
+        return ``;
+    }, [sort]);
 
     const groupedData: TableItem[] = useMemo(() => {
         const users = new Set(selectedUsers);
@@ -80,13 +90,13 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
         <table border={1}>
             <thead>
                 <tr>
-                    {groupBy.includes('faction') && (<th onClick={() => onSort('faction')}>Фракция</th>)}
-                    {groupBy.includes('userUuid') && (<th onClick={() => onSort('userUuid')}>Игрок</th>)}
-                    {groupBy.includes('map') && (<th onClick={() => onSort('map')}>Карта</th>)}
-                    <th onClick={() => onSort('total')}>Всего</th>
-                    <th onClick={() => onSort('wins')}>Побед</th>
-                    <th onClick={() => onSort('loss')}>Поражений</th>
-                    <th onClick={() => onSort('winRate')}>Винрейт</th>
+                    {groupBy.includes('faction') && (<th onClick={() => onSort('faction')}>Фракция <IfSort sort={sort} columnKey={'faction'}/></th>)}
+                    {groupBy.includes('userUuid') && (<th onClick={() => onSort('userUuid')}>Игрок <IfSort sort={sort} columnKey={'userUuid'}/></th>)}
+                    {groupBy.includes('map') && (<th onClick={() => onSort('map')}>Карта <IfSort sort={sort} columnKey={'map'}/></th>)}
+                    <th onClick={() => onSort('total')}>Всего <IfSort sort={sort} columnKey={'total'}/></th>
+                    <th onClick={() => onSort('wins')}>Побед <IfSort sort={sort} columnKey={'wins'}/></th>
+                    <th onClick={() => onSort('loss')}>Поражений <IfSort sort={sort} columnKey={'loss'}/></th>
+                    <th onClick={() => onSort('winRate')}>Винрейт <IfSort sort={sort} columnKey={'winRate'}/></th>
                 </tr>
             </thead>
             <tbody>
