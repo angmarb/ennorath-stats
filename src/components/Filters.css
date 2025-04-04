@@ -1,0 +1,4 @@
+.FiltersWrap {
+    display: flex;
+    flex-direction: column;
+}

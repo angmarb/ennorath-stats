@@ -1,0 +1,20 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+padding: 5px;
+}
+.win {
+    background-color: rgba(0, 128, 0, 0.5);
+}
+.lose {
+    background-color: rgba(128, 0, 0, 0.5);
+}
+
+th {
+    cursor: pointer;
+}
+.tableWrap {
+
+}

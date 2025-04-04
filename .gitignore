@@ -1,0 +1,7 @@
+*.tmp*
+jquery-3.7.1.js
+/.parcel-cache/
+/dist/
+/tmp/
+/.idea/
+/node_modules/
