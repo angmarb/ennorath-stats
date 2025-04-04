@@ -54,7 +54,7 @@ date_max = datetime.datetime.fromtimestamp(date_max/1000.0)
 
 print('date_min = ', date_min)
 print('date_max = ', date_max)
-heading = f'<h1>Статистика ладдера Эннората</h1><h2>от {date_min}</h2><h2>до {date_max}</h2><pre>Нажмите на заголовок столбца таблицы для сортировки</pre>'
+heading = f'<h1>Статистика ладдера Эннората</h1><h2>от {date_min}</h2><h2>до {date_max}</h2><a href="/ennorath-stats/">к статистике</a><pre>Нажмите на заголовок столбца таблицы для сортировки</pre>'
 table_htmls = []
 
 table_html = f'<h3>1v1 матчапы</h3><table border="1"><thead><tr><th onclick="sortTable(this, 0)">Матчап</th><th onclick="sortTable(this, 1, true)">Всего</th><th onclick="sortTable(this, 2, true)">Побед</th><th onclick="sortTable(this, 3, true)">Поражений</th><th onclick="sortTable(this, 4, true)">Винрейт</th></tr></thead><tbody>'
