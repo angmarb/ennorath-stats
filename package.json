@@ -9,7 +9,7 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build --dist-dir docs"
+    "build": "parcel build --dist-dir docs --public-url /ennorath-stats"
   },
   "dependencies": {
     "react": "^18.0.0",
