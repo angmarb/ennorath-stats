@@ -20,11 +20,13 @@ const names = {
 interface Props extends ForFiltersProps {
     mapNames: Record<string, string>;
     userNames: Record<string, string>;
+    allFactions: string[];
 }
 export default function Filters({
     selectedMapIds, setSelectedMapIds, setGroupBy, groupBy,
     setSelectedUsers, selectedUsers, userNames,
-    mapNames
+    mapNames, selectedFactions, setSelectedFactions, allFactions,
+    minTotal, setMinTotal
 }: Props) {
     return (<div className={'FiltersWrap'}>
         <div>
@@ -40,5 +42,13 @@ export default function Filters({
         </div>
         <DictMultiSelect items={mapNames} selectedIds={selectedMapIds} setSelectedIds={setSelectedMapIds} label={'Карты'} />
         <DictMultiSelect items={userNames} selectedIds={selectedUsers} setSelectedIds={setSelectedUsers} label={'Игроки'} />
+        <DictMultiSelect items={allFactions} selectedIds={selectedFactions} setSelectedIds={setSelectedFactions} label={'Фракции'} />
+        <label>
+            Минимальное количество игр после группировки:
+            <input
+                value={`${minTotal ?? ''}`}
+                type={'text'}
+                onChange={e => setMinTotal(e.target.value === '' ? null : parseInt(e.target.value))}/>
+        </label>
     </div>);
 }

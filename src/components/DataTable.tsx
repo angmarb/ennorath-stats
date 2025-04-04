@@ -23,7 +23,7 @@ interface Props extends ForTableDataInfo {
     userNames: Record<string, string>;
 }
 
-export default function DataTable({rawData, selectedMapIds, groupBy, selectedUsers, userNames, mapNames }: Props) {
+export default function DataTable({rawData, selectedMapIds, groupBy, selectedUsers, selectedFactions, minTotal, userNames, mapNames }: Props) {
     const [sort, setSort] = useState<Sort>(defaultSort);
 
     const onSort = useCallback((columnKey: keyof TableItem) => {
@@ -40,9 +40,10 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
     const groupedData: TableItem[] = useMemo(() => {
         const users = new Set(selectedUsers);
         const map = new Set(selectedMapIds);
+        const factions = new Set(selectedFactions);
         const result: Map<string, InfoItem> = new Map();
         rawData.forEach(datum => {
-            if (users.has(datum.userUuid) && map.has(datum.map)) {
+            if (users.has(datum.userUuid) && map.has(datum.map) && factions.has(datum.faction)) {
                 const groupKey = makeGroupKey(groupBy, datum);
                 let resultItem = result.get(groupKey);
                 if (!resultItem) {
@@ -57,7 +58,7 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
                 resultItem.loss += datum.loss;
             }
         });
-        const sorted = Array.from(result.values()).map(it => ({
+        let sorted = Array.from(result.values()).map(it => ({
             faction: it.faction,
             userUuid: userNames[it.userUuid] ?? it.userUuid,
             map: mapNames[it.map] ?? it.map,
@@ -69,8 +70,11 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
         if (!sort.isAsc) {
             sorted.reverse();
         }
+        if (minTotal !== null && !Number.isNaN(minTotal)) {
+            sorted = sorted.filter(datum => datum.total >= minTotal);
+        }
         return sorted;
-    }, [groupBy, rawData, selectedUsers, selectedMapIds, sortFn]);
+    }, [groupBy, rawData, selectedUsers, selectedMapIds, selectedFactions, minTotal, sortFn]);
 
     return (<div className={'tableWrap'}>
         <table border={1}>
@@ -87,9 +91,9 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
             </thead>
             <tbody>
                 {groupedData.map((datum, i) => (<tr key={i} className={datum.winRate > 50 ? 'win' : (datum.winRate < 50 ? 'lose' : '')}>
-                    {groupBy.map(groupByKey => (<td key={groupByKey}>
-                        {datum[groupByKey]}
-                    </td>))}
+                    {groupBy.includes('faction') && (<td>{datum.faction}</td>)}
+                    {groupBy.includes('userUuid') && (<td>{datum.userUuid}</td>)}
+                    {groupBy.includes('map') && (<td>{datum.map}</td>)}
                     <td>{datum.wins+datum.loss}</td>
                     <td>{datum.wins}</td>
                     <td>{datum.loss}</td>

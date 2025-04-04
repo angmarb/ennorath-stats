@@ -1,5 +1,6 @@
 .mode {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 50px;
 }

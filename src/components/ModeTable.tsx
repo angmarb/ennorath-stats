@@ -13,16 +13,20 @@ interface Props {
 }
 export default function ModeTable({mapNames, userNames, data, title}: Props) {
     const {component, table} = useDataFilters();
+    const allFactions = useMemo(() => Object.fromEntries(Array.from(new Set(data.map(x => x.faction))).sort().map(x => [x, x])), [data]);
     useEffect(() => {
         component.setSelectedUsers(Object.keys(userNames));
         component.setSelectedMapIds(Object.keys(mapNames));
-    }, []);
+        component.setSelectedFactions(Object.keys(allFactions));
+    }, [allFactions, userNames, mapNames]);
+
 
     const total = useMemo(() => data.reduce((a, r) => a + r.wins, 0), [data]);
-    return (<div className={'mode'}>
+    return (<>
         <h3>{title}, всего игр: {total}</h3>
-        <Filters {...component} mapNames={mapNames} userNames={userNames} />
-
-        <DataTable {...table} rawData={data} mapNames={mapNames} userNames={userNames} />
-    </div>);
+        <div className={'mode'}>
+            <Filters {...component} mapNames={mapNames} userNames={userNames} allFactions={allFactions} />
+            <DataTable {...table} rawData={data} mapNames={mapNames} userNames={userNames} />
+        </div>
+    </>);
 }

@@ -2,21 +2,16 @@ import sys
 import json
 import datetime
 from collections import defaultdict
+from typing import Dict
+from urllib.request import urlopen
+from urllib.parse import quote
+from bs4 import BeautifulSoup
+from html import escape
 
-input_file_name = sys.argv[1]
-output_file_name = sys.argv[2]
-patch_name_token_1 = sys.argv[3]
-patch_name_token_2 = sys.argv[4]
-replays_map = json.loads(open(input_file_name, 'rt').read())
-
-map_names = dict()
-user_names = dict()
-date_max = None
-date_min = None
-
+##########################################################
 
 class Record:
-    def __init__(self, mode, faction, user_uuid, map_id):
+    def __init__(self, mode: str, faction: str, user_uuid: str, map_id: str):
         self.mode = mode
         self.faction = faction
         self.user_uuid = user_uuid
@@ -31,6 +26,33 @@ class Record:
         return [self.faction, self.user_uuid, self.map_id, self.wins, self.loss]
 
 
+def gather_user_names(gamemode: str, arena: str) -> Dict[str, str]:
+    html = urlopen(f'https://bfmeladder.com/ladders?arena={quote(arena)}&gamemode={quote(gamemode)}').read().decode('utf-8')
+    bs = BeautifulSoup(html, features="html.parser")
+    users = dict()
+    for tr in bs.find_all('tr')[1:]:
+        tds = tr.find_all('td')
+        rank = tds[0].text.strip()
+        rate = tds[-1].text.strip()
+        name = tr.find('span', class_='ladderUsername').text.strip()
+        uid = tr.find('img', class_='miniProfilePicture')['src'].split('=')[-1]
+        users[uid] = f'{escape(name)} {escape(rank)} ({escape(rate)})'
+    return users
+
+
+###########################################################
+
+
+input_file_name = sys.argv[1]
+output_file_name = sys.argv[2]
+patch_name_token_1 = sys.argv[3]
+patch_name_token_2 = sys.argv[4]
+arena_uid = sys.argv[5]
+replays_map = json.loads(open(input_file_name, 'rt').read())
+
+map_names = dict()
+date_max = None
+date_min = None
 records = dict()
 for replay in replays_map.values():
     if not replay['IsValid']:
@@ -53,11 +75,15 @@ for replay in replays_map.values():
         else:
             records[k].loss += 1
 
-        user_names[player['PlayerAccountUuid']] = player['PlayerAccountUuid']
 
 records_by_mode = defaultdict(list)
 for record in records.values():
     records_by_mode[record.mode].append(record)
+
+usernames_by_mode = defaultdict(dict)
+for mode in records_by_mode.keys():
+    usernames_by_mode[mode] = gather_user_names(gamemode=mode, arena=arena_uid)
+
 date_min = datetime.datetime.fromtimestamp(date_min/1000.0)
 date_max = datetime.datetime.fromtimestamp(date_max/1000.0)
 if output_file_name:
@@ -65,6 +91,5 @@ if output_file_name:
         'date_min': str(date_min),
         'date_max': str(date_max),
         'mapNames': map_names,
-        'userNames': user_names,
-        'data': [{'mode': mode, 'data': [r.serialize() for r in modeRecords]} for mode, modeRecords in records_by_mode.items()]
+        'data': [{'mode': mode, 'userNames': usernames_by_mode[mode], 'data': [r.serialize() for r in modeRecords]} for mode, modeRecords in records_by_mode.items()]
     }))
