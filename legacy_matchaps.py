@@ -52,9 +52,9 @@ for replay in replays_map.values():
 date_min = datetime.datetime.fromtimestamp(date_min/1000.0)
 date_max = datetime.datetime.fromtimestamp(date_max/1000.0)
 
-print('date_min = ', date_min)
-print('date_max = ', date_max)
-heading = f'<h1>Статистика ладдера Эннората</h1><h2>от {date_min}</h2><h2>до {date_max}</h2><a href="/ennorath-stats/">к статистике</a><pre>Нажмите на заголовок столбца таблицы для сортировки</pre>'
+#print('date_min = ', date_min)
+#print('date_max = ', date_max)
+heading = f'<h1>Матчапы {patch_name_token_1} {patch_name_token_2}</h1><h2>от {date_min}</h2><h2>до {date_max}</h2><a href="/ennorath-stats/">к статистике</a><pre>Нажмите на заголовок столбца таблицы для сортировки</pre>'
 table_htmls = []
 
 table_html = f'<h3>1v1 матчапы</h3><table border="1"><thead><tr><th onclick="sortTable(this, 0)">Матчап</th><th onclick="sortTable(this, 1, true)">Всего</th><th onclick="sortTable(this, 2, true)">Побед</th><th onclick="sortTable(this, 3, true)">Поражений</th><th onclick="sortTable(this, 4, true)">Винрейт</th></tr></thead><tbody>'
@@ -63,7 +63,7 @@ for matchap in sorted(set(matchup1v1_wins.keys()).union(set(matchup1v1_loss.keys
     win_count = matchup1v1_wins.get(matchap, 0)
     loss_count = matchup1v1_loss.get(matchap, 0)
     win_rate = float(win_count) / (float(win_count + loss_count) if win_count + loss_count > 0 else 1)
-    print(matchap, 'wins = ', win_count, 'loss = ', loss_count)
+    #print(matchap, 'wins = ', win_count, 'loss = ', loss_count)
     cls = 'win' if win_rate > 0.5 else 'lose' if win_rate < 0.5 else ''
     games_count = win_count + loss_count
     table_html += f'<tr class="{cls}"><td>{matchap}</td><td>{games_count}</td><td>{win_count}</td><td>{loss_count}</td><td>{round(win_rate * 100, 2)}%</td></tr>'

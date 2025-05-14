@@ -43,10 +43,6 @@ export default function DataTable({rawData, selectedMapIds, groupBy, selectedUse
         [sort]
     );
 
-    const ifSort = useCallback((columnKey: keyof TableItem) => {
-        return ``;
-    }, [sort]);
-
     const groupedData: TableItem[] = useMemo(() => {
         const users = new Set(selectedUsers);
         const map = new Set(selectedMapIds);

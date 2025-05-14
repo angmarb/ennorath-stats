@@ -9,10 +9,15 @@ export default function Ennorath1973() {
     }
     const {date_max, date_min, data, mapNames} = info;
     return(<div>
-        <h1>Ennorath stats</h1>
+        <h1>Ennorath 1.9.7.3 stats</h1>
         <h2>{date_min}</h2>
         <h2>{date_max}</h2>
-        <a href={'/ennorath-stats/matchaps1973.html'}>к матчапам</a>
+        <div>
+            <a href={'/ennorath-stats'}>к актуальной версии</a>
+        </div>
+        <div>
+            <a href={'/ennorath-stats/matchaps1973.html'}>к матчапам</a>
+        </div>
         <pre>Нажмите на заголовок столбца таблицы для сортировки</pre>
         <div className={'modTables'}>
             {data.map(datum => (
