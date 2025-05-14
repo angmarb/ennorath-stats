@@ -92,7 +92,7 @@ for mode in records_by_mode.keys():
                 usernames_by_mode[mode][k] = '(old) ' + v
     for modeRecord in records_by_mode[mode]:
         if modeRecord.user_uuid not in usernames_by_mode[mode]:
-            usernames_by_mode[mode] = modeRecord.user_uuid
+            usernames_by_mode[mode][modeRecord.user_uuid] = modeRecord.user_uuid
 
 date_min = datetime.datetime.fromtimestamp(date_min/1000.0)
 date_max = datetime.datetime.fromtimestamp(date_max/1000.0)

@@ -1,9 +1,10 @@
 import ModeTable from '../components/ModeTable';
 import './page.css';
-import {use1973} from '../data/ennorath-data';
+import url1973 from 'url:../data/ennorath_data_1973.json';
+import useData from '../data/use-data';
 
 export default function Ennorath1973() {
-    const info = use1973();
+    const info = useData(url1973);
     if (!info) {
         return <></>;
     }
