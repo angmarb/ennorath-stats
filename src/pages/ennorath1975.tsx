@@ -1,9 +1,9 @@
 import ModeTable from '../components/ModeTable';
 import './page.css';
-import {use1973} from '../data/ennorath-data';
+import {use1975} from '../data/ennorath-data';
 
-export default function Ennorath1973() {
-    const info = use1973();
+export default function Ennorath1975() {
+    const info = use1975();
     if (!info) {
         return <></>;
     }
@@ -12,7 +12,8 @@ export default function Ennorath1973() {
         <h1>Ennorath stats</h1>
         <h2>{date_min}</h2>
         <h2>{date_max}</h2>
-        <a href={'/ennorath-stats/matchaps1973.html'}>к матчапам</a>
+        <a href={'/ennorath-stats/1973.html'}>к 1.9.7.3</a>
+        <a href={'/ennorath-stats/matchaps1975.html'}>к матчапам</a>
         <pre>Нажмите на заголовок столбца таблицы для сортировки</pre>
         <div className={'modTables'}>
             {data.map(datum => (
