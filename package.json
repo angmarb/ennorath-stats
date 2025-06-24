@@ -6,7 +6,7 @@
   "license": "ISC",
   "description": "",
   "private": true,
-  "source": ["src/index.html", "src/1973.html", "src/matchaps1973.html", "src/matchaps1975.html"],
+  "source": ["src/index.html", "src/1973.html", "src/1975.html", "src/matchaps1973.html", "src/matchaps1975.html", "src/matchaps1976.html"],
   "scripts": {
     "start": "parcel",
     "build": "parcel build --dist-dir docs --public-url /ennorath-stats"
