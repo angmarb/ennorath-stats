@@ -14,8 +14,8 @@ export default function Ennorath1976() {
         <h2>{date_min}</h2>
         <h2>{date_max}</h2>
         <div>
-            <a href={'/ennorath-stats/1973.html'}>к 1.9.7.3</a>
-            <a href={'/ennorath-stats/1975.html'}>к 1.9.7.5</a>
+            <p><a href={'/ennorath-stats/1973.html'}>к 1.9.7.3</a></p>
+            <p><a href={'/ennorath-stats/1975.html'}>к 1.9.7.5</a></p>
         </div>
         <div>
             <a href={'/ennorath-stats/matchaps1976.html'}>к матчапам</a>

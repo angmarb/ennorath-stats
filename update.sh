@@ -9,6 +9,4 @@ echo 'gather 1.9.7.5 matchaps'
 python3 legacy_matchaps.py 'tmp/replays.json.tmp' 'src/matchaps1975.html' 'Ennorath' '1.9.7.5'
 echo 'gather 1.9.7.6 matchaps'
 python3 legacy_matchaps.py 'tmp/replays.json.tmp' 'src/matchaps1976.html' 'Ennorath' '1.9.7.6'
-rm -rf docs/*
-echo 'building'
-npm run build
+rm -rf docs/* && rm -rf .parcel-cache/ && npm run build
