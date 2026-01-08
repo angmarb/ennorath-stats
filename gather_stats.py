@@ -27,7 +27,9 @@ class Record:
 
 
 def gather_user_names(gamemode: str, arena: str) -> Dict[str, str]:
-    html = urlopen(f'https://bfmeladder.com/ladders?arena={quote(arena)}&gamemode={quote(gamemode)}').read().decode('utf-8')
+    print('gather_user_names 1')
+    html = open(f'tmp/{gamemode}').read()
+    print('gather_user_names 2')
     bs = BeautifulSoup(html, features="html.parser")
     users = dict()
     for tr in bs.find_all('tr')[1:]:
@@ -48,8 +50,9 @@ output_file_name = sys.argv[2]
 patch_name_token_1 = sys.argv[3]
 patch_name_token_2 = sys.argv[4]
 arena_uid = sys.argv[5]
+print('read json1')
 replays_map = json.loads(open(input_file_name, 'rt').read())
-
+print('read json2')
 map_names = dict()
 date_max = None
 date_min = None
