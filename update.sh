@@ -1,7 +1,7 @@
 #!/bin/bash
 echo 'Downloading replay list'
-#ssh mymyp -t "curl 'https://bfmeladder.com/api/replays' > replays.json.tmp"
-#scp mymyp:replays.json.tmp tmp/replays.json.tmp
+ssh mymyp -t "curl 'https://bfmeladder.com/api/replays' > replays.json.tmp"
+scp mymyp:replays.json.tmp tmp/replays.json.tmp
 ssh mymyp -t "curl 'https://bfmeladder.com/ladders?arena=8a0e14c4-3204-4973-96e3-62ba9dc8526b&gamemode=1%20versus%201' > tmp"
 scp mymyp:tmp 'tmp/1 versus 1'
 ssh mymyp -t "curl 'https://bfmeladder.com/ladders?arena=8a0e14c4-3204-4973-96e3-62ba9dc8526b&gamemode=2%20versus%202' > tmp"
@@ -29,4 +29,8 @@ python3 gather_stats.py 'tmp/replays.json.tmp' 'src/data/ennorath_data_1977.json
 #python3 legacy_matchaps.py 'tmp/replays.json.tmp' 'src/matchaps1976.html' 'Ennorath' '1.9.7.6'
 echo 'gather 1.9.7.7 matchaps'
 python3 legacy_matchaps.py 'tmp/replays.json.tmp' 'src/matchaps1977.html' 'Ennorath' '1.9.7.7'
+echo 'gather 1.9.7.7 matchaps 2'
+python3 top30_matchaps.py 'tmp/replays.json.tmp' 'src/matchaps1977some30.html' 'Ennorath' '1.9.7.7'
+echo 'gather 1.9.7.7 matchaps 3'
+python3 top30_matchaps.py 'tmp/replays.json.tmp' 'src/matchaps1977only30.html' 'Ennorath' '1.9.7.7' --only
 rm -rf docs/* && rm -rf .parcel-cache/ && npm run build
