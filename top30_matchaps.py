@@ -82,14 +82,12 @@ for replay in replays_map.values():
     for player in replay['Players']:
         incr(faction_wins_by_mode if player['IsWinner'] else faction_loss_by_mode, replay['GamemodeName'], player['FactionName'])
     if replay['GamemodeName'] == '1 versus 1':
-        # if only_top30:
-        #     if any([player for player in replay['Players'] if player['PlayerAccountUuid'] not in top30]):
-        #         continue
-        #     else:
-        #         print('found replay')
-        # else:
-        #     if not any([player for player in replay['Players'] if player['PlayerAccountUuid'] in top30]):
-        #         continue
+        if only_top30:
+            if any([player for player in replay['Players'] if player['PlayerAccountUuid'] not in top30]):
+                continue
+        else:
+            if not any([player for player in replay['Players'] if player['PlayerAccountUuid'] in top30]):
+                continue
         winner = [player for player in replay['Players'] if player['IsWinner']][0]
         loser = [player for player in replay['Players'] if not player['IsWinner']][0]
         duelcount += 1

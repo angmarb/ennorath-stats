@@ -20,7 +20,11 @@ export default function Ennorath1977() {
         </div>
         <div>
             <a href={'/ennorath-stats/matchaps1977.html'}>к матчапам</a>
+        </div>
+        <div>
             <a href={'/ennorath-stats/matchaps1977some30.html'}>к матчапам топ30</a>
+        </div>
+        <div>
             <a href={'/ennorath-stats/matchaps1977only30.html'}>к матчапам между топ30</a>
         </div>
         <pre>Нажмите на заголовок столбца таблицы для сортировки</pre>
